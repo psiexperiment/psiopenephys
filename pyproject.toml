@@ -1,8 +1,8 @@
 [project]
 name = "psiopenephys"
-description = "Video tools supporting psiexperiment that can also be used as a stand-alone client/server architecture by other programs."
+description = "Client for controlling the Open Ephys GUI through its HTTP server."
 requires-python = ">=3.7"
-license = {file = "license.txt"}
+license = {file = "LICENSE.txt"}
 authors = [
     {name = "Brad Buran", email="buran@ohsu.edu"},
 ]

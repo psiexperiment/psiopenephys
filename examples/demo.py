@@ -1,4 +1,6 @@
 import datetime as dt
+import time
+
 from psiopenephys.client import OpenEphysClient
 
 
