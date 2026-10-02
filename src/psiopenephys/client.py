@@ -35,6 +35,7 @@ class OpenEphysClient:
             running on the same computer as the OpenEphys server.
         '''
         self.base_uri = f'http://{host}:{port}/api/'
+        self.exe_path = exe_path
 
     def _get(self, path):
         '''
@@ -85,7 +86,14 @@ class OpenEphysClient:
         with_timeout(lambda: self.status == 'IDLE', timeout,
                      'Could not stop acquisition/recording')
 
-    def connect(self, auto_open=False):
+    def _is_running(self):
+        try:
+            self.status
+            return True
+        except requests.ConnectionError:
+            return False
+
+    def connect(self, auto_open=False, timeout=30):
         '''
         Check to see if OpenEphys server is up and running
 
@@ -94,13 +102,26 @@ class OpenEphysClient:
         auto_open : bool
             If True and OpenEphys server is not up and running, launch an
             OpenEphys process.
+        timeout : float
+            Seconds to wait for a newly-launched OpenEphys process to start
+            its HTTP server.
+
+        Raises
+        ------
+        requests.ConnectionError
+            If the server is not running and `auto_open` is False.
+        ValueError
+            If the server does not come up within `timeout` seconds of
+            launching OpenEphys.
         '''
         try:
             self.status
         except requests.ConnectionError:
-            if auto_open:
-                subprocess.Popen(EXE_PATH)
-                self.status
+            if not auto_open:
+                raise
+            subprocess.Popen(self.exe_path)
+            with_timeout(self._is_running, timeout,
+                         'OpenEphys did not start its HTTP server')
 
     def close(self):
         '''
