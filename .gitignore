@@ -1,4 +1,4 @@
-psiopenephys/version.py
+src/psiopenephys/version.py
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

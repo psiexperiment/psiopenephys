@@ -22,4 +22,4 @@ requires = ["setuptools>=61.2", "wheel", "setuptools_scm[toml]>=3.4.3"]
 build-backend = "setuptools.build_meta"
 
 [tool.setuptools_scm]
-write_to = "psiopenephys/version.py"
+write_to = "src/psiopenephys/version.py"
